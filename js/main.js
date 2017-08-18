@@ -1,7 +1,8 @@
 var starPower = starPower || {};
+console.log("main js works");
 // this is the name of where you want to insert the cavas in the dom
                                               //         |
-                                              //         |
+                                             //         |
 starPower.game = new Phaser.Game(800,600, Phaser.CANVAS, '');
 
   starPower.game.state.add('boot', starPower.boot);
