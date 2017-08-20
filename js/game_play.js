@@ -8,13 +8,13 @@ starPower.game_play.prototype = {
     //adding background
     var sky = this.add.sprite(0,0,'sky');
 
-    platforms = game.add.group();
+    platforms = this.game.add.group();
 
     //enable physics on anything create in the group
     platforms.enableBody = true;
 
     //creating the ground
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    var ground = platforms.create(0, starPower.game.world.height - 64, 'platform');
 
     //scale to set to the width of the game
     ground.scale.setTo(2, 2);
@@ -23,9 +23,9 @@ starPower.game_play.prototype = {
     ground.body.immovable = true;
 
     //creating the ledges
-    var ledge = platforms.create(400, 400, 'ground');
+    var ledge = platforms.create(400, 400, 'platform');
     ledge.body.immovable = true;
-    ledge = platforms.create(-150, 250, 'ground');
+    ledge = platforms.create(-150, 250, 'platform');
     ledge.body.immovable = true;
   },
   update: function(){
