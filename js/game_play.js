@@ -27,9 +27,47 @@ starPower.game_play.prototype = {
     ledge.body.immovable = true;
     ledge = platforms.create(-150, 250, 'platform');
     ledge.body.immovable = true;
+
+    //the player and its settings
+    player = this.game.add.sprite(32, starPower.game.world.height - 150, 'player');
+
+    //enabling physics on the player
+    starPower.game.physics.arcade.enable(player);
+
+    //player physics properties
+    player.body.bounce.y = 0.2;
+    player.body.gravity.y = 300;
+    player.body.collideWorldBounds = true;
+
+    //walking left and right
+    player.animations.add('left', [0, 1, 2, 3], 10, true);
+    player.animations.add('right', [5, 6, 7, 8], 10, true);
   },
   update: function(){
+    var hitPlatform = this.game.physics.arcade.collide(player, platforms);
 
+    cursors = this.game.input.keyboard.createCursorKeys();
+
+    //reseting the players velocity
+    player.body.velocity.x = 0;
+    if(cursors.left.isDown){
+      //Move to the left
+      player.body.velocity.x = -150;
+      player.animations.play('left');
+    }
+    else if (cursors.right.isDown) {
+      //Move to the right
+      player.body.velocity.x = 150;
+      player.animations.play('right');
+    }
+    else{
+      player.animations.stop();
+      player.frame = 4;
+    }
+    //Allow player to jump if they are touching the floor
+    if (cursors.up.isDown && player.body.touching.down && hitPlatform) {
+      player.body.velocity.y = -350;
+    }
   }
 
 };
