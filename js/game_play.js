@@ -2,7 +2,7 @@ var starPower = starPower || {};
 starPower.game_play = function () {};
 console.log("game play works");
 var platforms;
-var score; 
+var score;
 starPower.game_play.prototype = {
 
   create: function(){
@@ -61,7 +61,7 @@ starPower.game_play.prototype = {
     }
 
     //Score---------------------------------------------------
-    score = 0;
+    
     var scoreText;
     scoretext = this.game.add.text(16, 16, 'Score: 0', {fontsize: '32px', fill: '#000'});
   },
