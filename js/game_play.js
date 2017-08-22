@@ -2,12 +2,14 @@ var starPower = starPower || {};
 starPower.game_play = function () {};
 console.log("game play works");
 var platforms;
+var score; 
 starPower.game_play.prototype = {
 
   create: function(){
     //adding background
     var sky = this.add.sprite(0,0,'sky');
 
+    //Platforms---------------------------------------
     platforms = this.game.add.group();
 
     //enable physics on anything create in the group
@@ -42,6 +44,26 @@ starPower.game_play.prototype = {
     //walking left and right
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+    //Stars-----------------------------------------------------
+    stars = this.game.add.group();
+    stars.enableBody = true;
+
+    for (var i = 0; i < 12; i++){
+      //create a star in the star group
+      var star = stars.create(i*70, 0, 'star');
+
+      //gravity
+      star.body.gravity.y = 8;
+
+      //gives star slightly random bounce
+      star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
+
+    //Score---------------------------------------------------
+    score = 0;
+    var scoreText;
+    scoretext = this.game.add.text(16, 16, 'Score: 0', {fontsize: '32px', fill: '#000'});
   },
   update: function(){
     var hitPlatform = this.game.physics.arcade.collide(player, platforms);
@@ -67,6 +89,20 @@ starPower.game_play.prototype = {
     //Allow player to jump if they are touching the floor
     if (cursors.up.isDown && player.body.touching.down && hitPlatform) {
       player.body.velocity.y = -350;
+    }
+
+    starPower.game.physics.arcade.collide(stars, platforms);
+
+    starPower.game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
+    function collectStar(player, star){
+      //removes the star
+      star.kill();
+
+      //add and update the score
+      score += 10;
+      console.log('updating score ' + score);
+      scoreText = 'Score: ' + score;
     }
   }
 
